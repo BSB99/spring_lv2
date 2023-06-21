@@ -1,7 +1,6 @@
 package com.sparta.login_blog.entity;
 
-import com.sparta.login_blog.dto.BlogRequestDto;
-import com.sparta.login_blog.dto.BlogResponseDto;
+import com.sparta.login_blog.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "blogs")
-public class Blog {
+@Table(name = "posts")
+public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +23,7 @@ public class Blog {
     @Column(nullable = false)
     private String content;
 
-    public Blog(BlogRequestDto requestDto) {
+    public Post(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
     }
