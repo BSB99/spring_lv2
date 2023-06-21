@@ -7,6 +7,7 @@ import com.sparta.login_blog.entity.Post;
 import com.sparta.login_blog.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,6 +42,16 @@ public class PostService {
         postRepository.delete(post);
 
         return new ApiResponseDto("게시글 삭제 성공", 200);
+    }
+
+    @Transactional
+    public PostResponseDto updatePost(Long id, PostRequestDto requestDto) {
+        Post post = findPost(id);
+
+        post.setTitle(requestDto.getTitle());
+        post.setContent(requestDto.getContent());
+
+        return new PostResponseDto(post);
     }
 
     private Post findPost(long id) {
