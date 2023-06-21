@@ -29,6 +29,12 @@ public class PostService {
         return postRepository.findAll().stream().map(PostResponseDto::new).toList();
     }
 
+    public PostResponseDto getPostById(Long id) {
+        Post post = findPost(id);
+
+        return new PostResponseDto(post);
+    }
+
     public ApiResponseDto deletePost(Long id) {
         Post post = findPost(id);
 

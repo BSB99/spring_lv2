@@ -32,6 +32,11 @@ public class PostController {
     public List<PostResponseDto> getPosts() {
         return postService.getPosts();
     }
+
+    @GetMapping("/post/{id}")
+    public PostResponseDto getPostById(@PathVariable Long id) {
+        return postService.getPostById(id);
+    }
     @DeleteMapping("/post/{id}")
     public ApiResponseDto deletePost(@PathVariable Long id) {
         return postService.deletePost(id);
