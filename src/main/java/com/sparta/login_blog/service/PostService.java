@@ -1,5 +1,6 @@
 package com.sparta.login_blog.service;
 
+import com.sparta.login_blog.dto.ApiResponseDto;
 import com.sparta.login_blog.dto.PostRequestDto;
 import com.sparta.login_blog.dto.PostResponseDto;
 import com.sparta.login_blog.entity.Post;
@@ -26,5 +27,19 @@ public class PostService {
 
     public List<PostResponseDto> getPosts() {
         return postRepository.findAll().stream().map(PostResponseDto::new).toList();
+    }
+
+    public ApiResponseDto deletePost(Long id) {
+        Post post = findPost(id);
+
+        postRepository.delete(post);
+
+        return new ApiResponseDto("게시글 삭제 성공", 200);
+    }
+
+    private Post findPost(long id) {
+        return postRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("선택한 게시글은 존재하지 않습니다.")
+        );
     }
 }

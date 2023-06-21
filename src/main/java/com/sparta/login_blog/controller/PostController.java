@@ -1,9 +1,11 @@
 package com.sparta.login_blog.controller;
 
+import com.sparta.login_blog.dto.ApiResponseDto;
 import com.sparta.login_blog.dto.PostRequestDto;
 import com.sparta.login_blog.dto.PostResponseDto;
 import com.sparta.login_blog.jwt.JwtUtil;
 import com.sparta.login_blog.service.PostService;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +28,12 @@ public class PostController {
         return postService.createPost(requestDto);
     }
 
-    @GetMapping("posts")
+    @GetMapping("/posts")
     public List<PostResponseDto> getPosts() {
         return postService.getPosts();
+    }
+    @DeleteMapping("/post/{id}")
+    public ApiResponseDto deletePost(@PathVariable Long id) {
+        return postService.deletePost(id);
     }
 }
