@@ -8,6 +8,7 @@ import com.sparta.login_blog.jwt.JwtUtil;
 import com.sparta.login_blog.service.PostService;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,30 +22,40 @@ public class PostController {
 
     private final JwtUtil jwtUtil;
     @PostMapping("post")
-    public PostResponseDto createPost(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data, @RequestBody PostRequestDto requestDto) {
+    public ResponseEntity<PostResponseDto> createPost(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data, @RequestBody PostRequestDto requestDto) {
         jwtUtil.doubleCheckToken(data);
-        return postService.createPost(requestDto);
+        PostResponseDto result = postService.createPost(requestDto);
+
+        return ResponseEntity.status(201).body(result);
     }
 
     @GetMapping("/posts")
-    public PostListResponseDto getPosts() {
-        return postService.getPosts();
+    public ResponseEntity<PostListResponseDto> getPosts() {
+        PostListResponseDto result = postService.getPosts();
+
+        return ResponseEntity.status(200).body(result);
     }
 
     @GetMapping("/post/{id}")
-    public PostResponseDto getPostById(@PathVariable Long id) {
-        return postService.getPostById(id);
+    public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id) {
+        PostResponseDto result = postService.getPostById(id);
+
+        return ResponseEntity.status(200).body(result);
     }
 
     @PutMapping("/post/{id}")
-    public PostResponseDto updatePost(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data, @PathVariable Long id, @RequestBody PostRequestDto requestDto) {
+    public ResponseEntity<PostResponseDto> updatePost(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data, @PathVariable Long id, @RequestBody PostRequestDto requestDto) {
         jwtUtil.doubleCheckToken(data);
-        return postService.updatePost(id, requestDto);
+        PostResponseDto result = postService.updatePost(id, requestDto);
+
+        return ResponseEntity.status(200).body(result);
     }
 
     @DeleteMapping("/post/{id}")
-    public ApiResponseDto deletePost(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data, @PathVariable Long id) {
+    public ResponseEntity<ApiResponseDto> deletePost(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data, @PathVariable Long id) {
         jwtUtil.doubleCheckToken(data);
-        return postService.deletePost(id);
+        ApiResponseDto result = postService.deletePost(id);
+
+        return ResponseEntity.status(200).body(result);
     }
 }
