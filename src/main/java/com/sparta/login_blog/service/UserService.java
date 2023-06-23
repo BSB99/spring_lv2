@@ -1,5 +1,6 @@
 package com.sparta.login_blog.service;
 
+import com.sparta.login_blog.dto.ApiResponseDto;
 import com.sparta.login_blog.dto.SignRequestDto;
 import com.sparta.login_blog.entity.User;
 import com.sparta.login_blog.jwt.JwtUtil;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -17,15 +20,21 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final JwtUtil jwtUtil;
-    public void signup(SignRequestDto requestDto) {
+    public ApiResponseDto signup(SignRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
 
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 회원입니다.");
+        }
+
         User user = new User(username, password);
         userRepository.save(user);
+
+        return new ApiResponseDto("회원가입 성공", 200);
     }
 
-    public String signIn(SignRequestDto requestDto, HttpServletResponse res) {
+    public ApiResponseDto signIn(SignRequestDto requestDto, HttpServletResponse res) {
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();
 
@@ -43,6 +52,6 @@ public class UserService {
         String token = jwtUtil.createToken(user.getUsername());
 
         jwtUtil.addJwtToCookie(token, res);
-        return "로그인성공";
+        return new ApiResponseDto("로그인 성공", 200);
     }
 }

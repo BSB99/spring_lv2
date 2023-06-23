@@ -1,5 +1,6 @@
 package com.sparta.login_blog.controller;
 
+import com.sparta.login_blog.dto.ApiResponseDto;
 import com.sparta.login_blog.dto.SignRequestDto;
 import com.sparta.login_blog.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,15 +17,13 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signUp(@RequestBody @Valid SignRequestDto requestDto) {
-        userService.signup(requestDto);
-        return "회원가입 성공";
+    public ApiResponseDto signUp(@RequestBody @Valid SignRequestDto requestDto) {
+        return userService.signup(requestDto);
     }
 
     @PostMapping("/signin")
-    public String signIn(@RequestBody @Valid SignRequestDto requestDto, HttpServletResponse res) {
-        String token = userService.signIn(requestDto, res);
-        return token;
+    public ApiResponseDto signIn(@RequestBody @Valid SignRequestDto requestDto, HttpServletResponse res) {
+        return userService.signIn(requestDto, res);
     }
 
 }
