@@ -22,10 +22,7 @@ public class PostController {
     private final JwtUtil jwtUtil;
     @PostMapping("post")
     public PostResponseDto createPost(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data, @RequestBody PostRequestDto requestDto) {
-        data = jwtUtil.substringToken(data);
-        if (!jwtUtil.validateToken(data)) {
-            throw new RuntimeException("Invalid token");
-        }
+        jwtUtil.doubleCheckToken(data);
         return postService.createPost(requestDto);
     }
 
@@ -40,12 +37,14 @@ public class PostController {
     }
 
     @PutMapping("/post/{id}")
-    public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
+    public PostResponseDto updatePost(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data, @PathVariable Long id, @RequestBody PostRequestDto requestDto) {
+        jwtUtil.doubleCheckToken(data);
         return postService.updatePost(id, requestDto);
     }
 
     @DeleteMapping("/post/{id}")
-    public ApiResponseDto deletePost(@PathVariable Long id) {
+    public ApiResponseDto deletePost(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data, @PathVariable Long id) {
+        jwtUtil.doubleCheckToken(data);
         return postService.deletePost(id);
     }
 }
