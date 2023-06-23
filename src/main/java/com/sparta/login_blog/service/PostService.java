@@ -1,6 +1,7 @@
 package com.sparta.login_blog.service;
 
 import com.sparta.login_blog.dto.ApiResponseDto;
+import com.sparta.login_blog.dto.PostListResponseDto;
 import com.sparta.login_blog.dto.PostRequestDto;
 import com.sparta.login_blog.dto.PostResponseDto;
 import com.sparta.login_blog.entity.Post;
@@ -9,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +29,12 @@ public class PostService {
         return responseDto;
     }
 
-    public List<PostResponseDto> getPosts() {
-        return postRepository.findAll().stream().map(PostResponseDto::new).toList();
+    public PostListResponseDto getPosts() {
+        List<PostResponseDto> postList = postRepository.findAll().stream()
+                .map(PostResponseDto::new)
+                .collect(Collectors.toList());
+
+        return new PostListResponseDto(postList);
     }
 
     public PostResponseDto getPostById(Long id) {

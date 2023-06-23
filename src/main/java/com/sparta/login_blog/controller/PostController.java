@@ -1,6 +1,7 @@
 package com.sparta.login_blog.controller;
 
 import com.sparta.login_blog.dto.ApiResponseDto;
+import com.sparta.login_blog.dto.PostListResponseDto;
 import com.sparta.login_blog.dto.PostRequestDto;
 import com.sparta.login_blog.dto.PostResponseDto;
 import com.sparta.login_blog.jwt.JwtUtil;
@@ -29,7 +30,7 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public List<PostResponseDto> getPosts() {
+    public PostListResponseDto getPosts() {
         return postService.getPosts();
     }
 
