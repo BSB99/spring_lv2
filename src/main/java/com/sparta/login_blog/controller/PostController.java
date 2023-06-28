@@ -23,8 +23,8 @@ public class PostController {
     private final JwtUtil jwtUtil;
     @PostMapping("post")
     public ResponseEntity<PostResponseDto> createPost(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data, @RequestBody PostRequestDto requestDto) {
-        jwtUtil.doubleCheckToken(data);
-        PostResponseDto result = postService.createPost(requestDto);
+        data = jwtUtil.doubleCheckToken(data);
+        PostResponseDto result = postService.createPost(requestDto, data);
 
         return ResponseEntity.status(201).body(result);
     }
@@ -45,16 +45,16 @@ public class PostController {
 
     @PutMapping("/post/{id}")
     public ResponseEntity<PostResponseDto> updatePost(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data, @PathVariable Long id, @RequestBody PostRequestDto requestDto) {
-        jwtUtil.doubleCheckToken(data);
-        PostResponseDto result = postService.updatePost(id, requestDto);
+        data = jwtUtil.doubleCheckToken(data);
+        PostResponseDto result = postService.updatePost(id, requestDto, data);
 
         return ResponseEntity.status(200).body(result);
     }
 
     @DeleteMapping("/post/{id}")
     public ResponseEntity<ApiResponseDto> deletePost(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data, @PathVariable Long id) {
-        jwtUtil.doubleCheckToken(data);
-        ApiResponseDto result = postService.deletePost(id);
+        data = jwtUtil.doubleCheckToken(data);
+        ApiResponseDto result = postService.deletePost(id, data);
 
         return ResponseEntity.status(200).body(result);
     }

@@ -5,6 +5,7 @@ import com.sparta.login_blog.dto.SignRequestDto;
 import com.sparta.login_blog.entity.User;
 import com.sparta.login_blog.jwt.JwtUtil;
 import com.sparta.login_blog.repository.UserRepository;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -53,5 +54,15 @@ public class UserService {
 
         jwtUtil.addJwtToCookie(token, res);
         return new ApiResponseDto("로그인 성공", 200);
+    }
+
+    public User getUser(String token) {
+        Claims claims = jwtUtil.getUserInfoFromToken(token);
+        System.out.println(claims);
+        User user = userRepository.findByUsername((String)claims.get("sub")).orElseThrow(() ->
+                new NullPointerException("유저가 존재하지 않습니다")
+        );
+
+        return user;
     }
 }

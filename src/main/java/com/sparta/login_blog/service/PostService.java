@@ -5,12 +5,15 @@ import com.sparta.login_blog.dto.PostListResponseDto;
 import com.sparta.login_blog.dto.PostRequestDto;
 import com.sparta.login_blog.dto.PostResponseDto;
 import com.sparta.login_blog.entity.Post;
+import com.sparta.login_blog.entity.User;
+import com.sparta.login_blog.jwt.JwtUtil;
 import com.sparta.login_blog.repository.PostRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,9 +21,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final UserService userService;
 
-    public PostResponseDto createPost(PostRequestDto requestDto) {
-        Post post = new Post(requestDto);
+    public PostResponseDto createPost(PostRequestDto requestDto, String data) {
+        User user = userService.getUser(data);
+
+        Post post = new Post(requestDto, user);
 
         postRepository.save(post);
 
@@ -43,8 +49,12 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
-    public ApiResponseDto deletePost(Long id) {
+    public ApiResponseDto deletePost(Long id, String data) {
+        User user = userService.getUser(data);
+
         Post post = findPost(id);
+
+        vaildateUser(user,post);
 
         postRepository.delete(post);
 
@@ -52,8 +62,11 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto updatePost(Long id, PostRequestDto requestDto) {
+    public PostResponseDto updatePost(Long id, PostRequestDto requestDto, String data) {
+        User user = userService.getUser(data);
+
         Post post = findPost(id);
+        vaildateUser(user,post);
 
         post.setTitle(requestDto.getTitle());
         post.setContent(requestDto.getContent());
@@ -65,5 +78,11 @@ public class PostService {
         return postRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("선택한 게시글은 존재하지 않습니다.")
         );
+    }
+
+    private void vaildateUser(User user, Post post) {
+        if (user.getUsername() != post.getUser().getUsername()) {
+            throw new IllegalArgumentException("게시글을 작성한 유저가 아닙니다!");
+        }
     }
 }

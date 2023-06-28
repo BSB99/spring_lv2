@@ -1,6 +1,7 @@
 package com.sparta.login_blog.dto;
 
 import com.sparta.login_blog.entity.Post;
+import com.sparta.login_blog.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,11 +15,12 @@ public class PostResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-
+    private String username;
     public PostResponseDto(Post post) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
+        this.username = post.getUser().getUsername();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
     }

@@ -99,12 +99,12 @@ public class JwtUtil {
         }
         return false;
     }
-    public void doubleCheckToken(String data) {
+    public String doubleCheckToken(String data) {
         data = substringToken(data);
-        System.out.println(data);
         if (!validateToken(data)) {
             throw new RuntimeException("Invalid token");
         }
+        return data;
     }
 
     // 토큰에서 사용자 정보 가져오기
