@@ -1,14 +1,10 @@
 package com.sparta.login_blog.service;
 
 import com.sparta.login_blog.dto.*;
-import com.sparta.login_blog.entity.Comment;
 import com.sparta.login_blog.entity.Post;
 import com.sparta.login_blog.entity.User;
 import com.sparta.login_blog.entity.UserRoleEnum;
-import com.sparta.login_blog.jwt.JwtUtil;
 import com.sparta.login_blog.repository.PostRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,9 +25,7 @@ public class PostService {
 
         postRepository.save(post);
 
-        PostResponseDto responseDto = new PostResponseDto(post);
-
-        return responseDto;
+        return new PostResponseDto(post);
     }
 
     public PostListResponseDto getPosts() {
@@ -53,7 +47,9 @@ public class PostService {
 
         Post post = findPost(id);
 
-        vaildateUser(user,post);
+        if(!vaildateUser(user,post)){
+            throw new IllegalArgumentException("예상치 못한 오류");
+        }
 
         postRepository.delete(post);
 
@@ -65,7 +61,10 @@ public class PostService {
         User user = userService.getUser(data);
 
         Post post = findPost(id);
-        vaildateUser(user,post);
+
+        if(!vaildateUser(user,post)){
+            throw new IllegalArgumentException("예상치 못한 오류");
+        }
 
         post.setTitle(requestDto.getTitle());
         post.setContent(requestDto.getContent());

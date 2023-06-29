@@ -34,7 +34,9 @@ public class CommentService {
         User user = userService.getUser(data);
         Comment comment = findComment(commentId);
 
-        commentVerificate(comment,user,postId);
+        if(!commentVerificate(comment,user,postId)) {
+            throw new IllegalArgumentException("예상치 못한 에러 발생");
+        }
 
         comment.setContent(request.getContent());
 
@@ -45,7 +47,9 @@ public class CommentService {
         User user = userService.getUser(data);
         Comment comment = findComment(commentId);
 
-        commentVerificate(comment,user,postId);
+        if(!commentVerificate(comment,user,postId)) {
+            throw new IllegalArgumentException("예상치 못한 에러 발생");
+        }
 
         commentRepository.delete(comment);
 

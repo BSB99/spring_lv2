@@ -3,12 +3,9 @@ package com.sparta.login_blog.controller;
 import com.sparta.login_blog.dto.*;
 import com.sparta.login_blog.jwt.JwtUtil;
 import com.sparta.login_blog.service.PostService;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
