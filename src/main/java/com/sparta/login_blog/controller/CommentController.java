@@ -19,4 +19,10 @@ public class CommentController {
         data = jwtUtil.doubleCheckToken(data);
         return commentService.createComment(request, data, post_id);
     }
+
+    @PutMapping("{post_id}/comment/{comment_id}")
+    public CommentResponseDto updateComment(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data,@PathVariable Long post_id, @PathVariable Long comment_id, @RequestBody CommentRequestDto request) {
+        data = jwtUtil.doubleCheckToken(data);
+        return commentService.updatePost(request, data, post_id, comment_id);
+    }
 }
