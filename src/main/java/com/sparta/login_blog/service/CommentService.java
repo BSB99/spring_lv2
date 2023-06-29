@@ -6,6 +6,7 @@ import com.sparta.login_blog.dto.CommentResponseDto;
 import com.sparta.login_blog.entity.Comment;
 import com.sparta.login_blog.entity.Post;
 import com.sparta.login_blog.entity.User;
+import com.sparta.login_blog.entity.UserRoleEnum;
 import com.sparta.login_blog.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,15 +58,17 @@ public class CommentService {
         );
     }
 
-    private void commentVerificate(Comment comment, User user, Long postId) {
+    private boolean commentVerificate(Comment comment, User user, Long postId) {
         postService.findPost(postId);
 
-        if (comment.getPost().getId() != postId) {
+        if(user.getRole().equals(UserRoleEnum.ADMIN)) {
+            return true;
+        }else if (comment.getPost().getId() != postId) {
             throw new IllegalArgumentException("게시글 번호를 확인해주세요");
-        }
-
-        if (comment.getUser().getId() != user.getId()) {
+        }else if (comment.getUser().getId() != user.getId()) {
             throw new IllegalArgumentException("작성자가 아닙니다!");
+        } else {
+            return false;
         }
     }
 }

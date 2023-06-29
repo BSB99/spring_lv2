@@ -4,6 +4,7 @@ import com.sparta.login_blog.dto.*;
 import com.sparta.login_blog.entity.Comment;
 import com.sparta.login_blog.entity.Post;
 import com.sparta.login_blog.entity.User;
+import com.sparta.login_blog.entity.UserRoleEnum;
 import com.sparta.login_blog.jwt.JwtUtil;
 import com.sparta.login_blog.repository.PostRepository;
 import io.jsonwebtoken.Claims;
@@ -78,9 +79,14 @@ public class PostService {
         );
     }
 
-    private void vaildateUser(User user, Post post) {
-        if (user.getUsername() != post.getUser().getUsername()) {
+    private boolean vaildateUser(User user, Post post) {
+        if (user.getRole().equals(UserRoleEnum.ADMIN)) {
+            return true;
+        }
+        else if (user.getUsername() != post.getUser().getUsername()) {
             throw new IllegalArgumentException("게시글을 작성한 유저가 아닙니다!");
+        } else {
+            return false;
         }
     }
 }
