@@ -1,5 +1,6 @@
 package com.sparta.login_blog.controller;
 
+import com.sparta.login_blog.dto.ApiResponseDto;
 import com.sparta.login_blog.dto.CommentRequestDto;
 import com.sparta.login_blog.dto.CommentResponseDto;
 import com.sparta.login_blog.jwt.JwtUtil;
@@ -23,6 +24,6 @@ public class CommentController {
     @PutMapping("{post_id}/comment/{comment_id}")
     public CommentResponseDto updateComment(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data,@PathVariable Long post_id, @PathVariable Long comment_id, @RequestBody CommentRequestDto request) {
         data = jwtUtil.doubleCheckToken(data);
-        return commentService.updatePost(request, data, post_id, comment_id);
+        return commentService.updateComment(request, data, post_id, comment_id);
     }
 }

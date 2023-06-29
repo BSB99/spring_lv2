@@ -8,6 +8,7 @@ import com.sparta.login_blog.entity.User;
 import com.sparta.login_blog.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,8 @@ public class CommentService {
         return new CommentResponseDto(comment);
     }
 
-    public CommentResponseDto updatePost(CommentRequestDto request, String data, Long postId, Long commentId) {
+    @Transactional
+    public CommentResponseDto updateComment(CommentRequestDto request, String data, Long postId, Long commentId) {
         User user = userService.getUser(data);
         postService.findPost(postId);
         Comment comment = findComment(commentId);
