@@ -9,21 +9,27 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/post")
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
 
     private final JwtUtil jwtUtil;
-    @PostMapping("{post_id}/comment")
+    @PostMapping("/{post_id}/comment")
     public CommentResponseDto createComment(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data,@PathVariable Long post_id,@RequestBody CommentRequestDto request) {
         data = jwtUtil.doubleCheckToken(data);
         return commentService.createComment(request, data, post_id);
     }
 
-    @PutMapping("{post_id}/comment/{comment_id}")
+    @PutMapping("/{post_id}/comment/{comment_id}")
     public CommentResponseDto updateComment(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data,@PathVariable Long post_id, @PathVariable Long comment_id, @RequestBody CommentRequestDto request) {
         data = jwtUtil.doubleCheckToken(data);
         return commentService.updateComment(request, data, post_id, comment_id);
+    }
+
+    @DeleteMapping("/{post_id}/comment/{comment_id}")
+    public ApiResponseDto deleteComment(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data,@PathVariable Long post_id, @PathVariable Long comment_id){
+        data = jwtUtil.doubleCheckToken(data);
+        return commentService.deleteComment(data, post_id, comment_id);
     }
 }

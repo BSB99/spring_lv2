@@ -1,5 +1,6 @@
 package com.sparta.login_blog.service;
 
+import com.sparta.login_blog.dto.ApiResponseDto;
 import com.sparta.login_blog.dto.CommentRequestDto;
 import com.sparta.login_blog.dto.CommentResponseDto;
 import com.sparta.login_blog.entity.Comment;
@@ -29,8 +30,34 @@ public class CommentService {
     @Transactional
     public CommentResponseDto updateComment(CommentRequestDto request, String data, Long postId, Long commentId) {
         User user = userService.getUser(data);
-        postService.findPost(postId);
         Comment comment = findComment(commentId);
+
+        commentVerificate(comment,user,postId);
+
+        comment.setContent(request.getContent());
+
+        return new CommentResponseDto(comment);
+    }
+
+    public ApiResponseDto deleteComment(String data, Long postId, Long commentId) {
+        User user = userService.getUser(data);
+        Comment comment = findComment(commentId);
+
+        commentVerificate(comment,user,postId);
+
+        commentRepository.delete(comment);
+
+        return new ApiResponseDto("댓글 삭제 완료", 200);
+    }
+
+    private Comment findComment(Long id) {
+        return commentRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않는 댓글입니다.")
+        );
+    }
+
+    private void commentVerificate(Comment comment, User user, Long postId) {
+        postService.findPost(postId);
 
         if (comment.getPost().getId() != postId) {
             throw new IllegalArgumentException("게시글 번호를 확인해주세요");
@@ -39,15 +66,5 @@ public class CommentService {
         if (comment.getUser().getId() != user.getId()) {
             throw new IllegalArgumentException("작성자가 아닙니다!");
         }
-
-        comment.setContent(request.getContent());
-
-        return new CommentResponseDto(comment);
-    }
-
-    public Comment findComment(Long id) {
-        return commentRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 댓글입니다.")
-        );
     }
 }
