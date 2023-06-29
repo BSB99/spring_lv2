@@ -24,9 +24,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private List<Comment> commentList = new ArrayList<>();
-
     public User(String username, String password) {
         this.username = username;
         this.password = password;

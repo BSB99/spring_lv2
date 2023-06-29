@@ -24,6 +24,7 @@ public class CommentService {
         Comment comment = new Comment(request, user, post);
 
         commentRepository.save(comment);
+
         return new CommentResponseDto(comment);
     }
 

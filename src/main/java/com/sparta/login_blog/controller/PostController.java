@@ -1,9 +1,6 @@
 package com.sparta.login_blog.controller;
 
-import com.sparta.login_blog.dto.ApiResponseDto;
-import com.sparta.login_blog.dto.PostListResponseDto;
-import com.sparta.login_blog.dto.PostRequestDto;
-import com.sparta.login_blog.dto.PostResponseDto;
+import com.sparta.login_blog.dto.*;
 import com.sparta.login_blog.jwt.JwtUtil;
 import com.sparta.login_blog.service.PostService;
 import jakarta.websocket.server.PathParam;
@@ -37,8 +34,8 @@ public class PostController {
     }
 
     @GetMapping("/post/{id}")
-    public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id) {
-        PostResponseDto result = postService.getPostById(id);
+    public ResponseEntity<PostDetailResponseDto> getPostById(@PathVariable Long id) {
+        PostDetailResponseDto result = postService.getPostById(id);
 
         return ResponseEntity.status(200).body(result);
     }

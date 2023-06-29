@@ -1,9 +1,7 @@
 package com.sparta.login_blog.service;
 
-import com.sparta.login_blog.dto.ApiResponseDto;
-import com.sparta.login_blog.dto.PostListResponseDto;
-import com.sparta.login_blog.dto.PostRequestDto;
-import com.sparta.login_blog.dto.PostResponseDto;
+import com.sparta.login_blog.dto.*;
+import com.sparta.login_blog.entity.Comment;
 import com.sparta.login_blog.entity.Post;
 import com.sparta.login_blog.entity.User;
 import com.sparta.login_blog.jwt.JwtUtil;
@@ -43,10 +41,10 @@ public class PostService {
         return new PostListResponseDto(postList);
     }
 
-    public PostResponseDto getPostById(Long id) {
+    public PostDetailResponseDto getPostById(Long id) {
         Post post = findPost(id);
 
-        return new PostResponseDto(post);
+        return new PostDetailResponseDto(post);
     }
 
     public ApiResponseDto deletePost(Long id, String data) {
