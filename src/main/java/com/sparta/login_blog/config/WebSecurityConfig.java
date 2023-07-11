@@ -1,6 +1,6 @@
 package com.sparta.login_blog.config;
 
-import com.sparta.login_blog.jwt.JwtAuthenticationFilter;
+//import com.sparta.login_blog.jwt.JwtAuthenticationFilter;
 import com.sparta.login_blog.jwt.JwtAuthorizationFilter;
 import com.sparta.login_blog.jwt.JwtUtil;
 import com.sparta.login_blog.security.UserDetailsServiceImpl;
@@ -34,12 +34,12 @@ public class WebSecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil);
-        filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
-        return filter;
-    }
+//    @Bean
+//    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+//        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil);
+//        filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
+//        return filter;
+//    }
 
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
@@ -65,7 +65,7 @@ public class WebSecurityConfig {
 
         // 필터 관리
         // http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

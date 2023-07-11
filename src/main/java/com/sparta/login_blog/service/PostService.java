@@ -18,9 +18,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
 
-    public PostResponseDto createPost(PostRequestDto requestDto, String data) {
-        User user = userService.getUser(data);
-
+    public PostResponseDto createPost(PostRequestDto requestDto, User user) {
         Post post = new Post(requestDto, user);
 
         postRepository.save(post);
@@ -42,9 +40,7 @@ public class PostService {
         return new PostDetailResponseDto(post);
     }
 
-    public ApiResponseDto deletePost(Long id, String data) {
-        User user = userService.getUser(data);
-
+    public ApiResponseDto deletePost(Long id, User user) {
         Post post = findPost(id);
 
         if(!vaildateUser(user,post)){
@@ -57,9 +53,7 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto updatePost(Long id, PostRequestDto requestDto, String data) {
-        User user = userService.getUser(data);
-
+    public PostResponseDto updatePost(Long id, PostRequestDto requestDto, User user) {
         Post post = findPost(id);
 
         if(!vaildateUser(user,post)){

@@ -4,8 +4,10 @@ import com.sparta.login_blog.dto.ApiResponseDto;
 import com.sparta.login_blog.dto.CommentRequestDto;
 import com.sparta.login_blog.dto.CommentResponseDto;
 import com.sparta.login_blog.jwt.JwtUtil;
+import com.sparta.login_blog.security.UserDetailsImpl;
 import com.sparta.login_blog.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,20 +18,17 @@ public class CommentController {
 
     private final JwtUtil jwtUtil;
     @PostMapping("/{post_id}/comment")
-    public CommentResponseDto createComment(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data,@PathVariable Long post_id,@RequestBody CommentRequestDto request) {
-        data = jwtUtil.doubleCheckToken(data);
-        return commentService.createComment(request, data, post_id);
+    public CommentResponseDto createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long post_id, @RequestBody CommentRequestDto request) {
+        return commentService.createComment(request, userDetails.getUser(), post_id);
     }
 
     @PutMapping("/{post_id}/comment/{comment_id}")
-    public CommentResponseDto updateComment(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data,@PathVariable Long post_id, @PathVariable Long comment_id, @RequestBody CommentRequestDto request) {
-        data = jwtUtil.doubleCheckToken(data);
-        return commentService.updateComment(request, data, post_id, comment_id);
+    public CommentResponseDto updateComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long post_id, @PathVariable Long comment_id, @RequestBody CommentRequestDto request) {
+        return commentService.updateComment(request, userDetails.getUser(), post_id, comment_id);
     }
 
     @DeleteMapping("/{post_id}/comment/{comment_id}")
-    public ApiResponseDto deleteComment(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String data,@PathVariable Long post_id, @PathVariable Long comment_id){
-        data = jwtUtil.doubleCheckToken(data);
-        return commentService.deleteComment(data, post_id, comment_id);
+    public ApiResponseDto deleteComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long post_id, @PathVariable Long comment_id){
+        return commentService.deleteComment(userDetails.getUser(), post_id, comment_id);
     }
 }
