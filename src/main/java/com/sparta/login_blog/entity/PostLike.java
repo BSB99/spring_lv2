@@ -16,15 +16,15 @@ public class PostLike {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "comment_no", nullable = false)
-    private Comment comment;
+    @JoinColumn(name = "post_no", nullable = false)
+    private Post post;
 
     @ManyToOne
     @JoinColumn(name = "user_no", nullable = false)
     private User user;
 
-    public PostLike(Comment comment, User user) {
-        this.comment = comment;
+    public PostLike(Post post, User user) {
+        this.post = post;
         this.user = user;
     }
 }
