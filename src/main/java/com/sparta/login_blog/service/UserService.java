@@ -2,11 +2,13 @@ package com.sparta.login_blog.service;
 
 import com.sparta.login_blog.dto.ApiResponseDto;
 import com.sparta.login_blog.dto.SignUpRequestDto;
+import com.sparta.login_blog.dto.SigninRequestDto;
 import com.sparta.login_blog.entity.User;
 import com.sparta.login_blog.entity.UserRoleEnum;
 import com.sparta.login_blog.jwt.JwtUtil;
 import com.sparta.login_blog.repository.UserRepository;
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,5 +47,21 @@ public class UserService {
         );
 
         return user;
+    }
+
+    public void signin(SigninRequestDto requestDto, HttpServletResponse response) {
+        String username = requestDto.getUsername();
+        String password = requestDto.getPassword();
+
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("등록되지 않은 사용자입니다.")
+        );
+
+        if(!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        String token = jwtUtil.createToken(user.getUsername(), user.getRole());
+        jwtUtil.addJwtToCookie(token, response);
     }
 }
