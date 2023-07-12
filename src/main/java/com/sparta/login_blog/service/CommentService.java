@@ -53,7 +53,7 @@ public class CommentService {
         return new ApiResponseDto("댓글 삭제 완료", 200);
     }
 
-    private Comment findComment(Long id) {
+    public Comment findComment(Long id) {
         return commentRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 댓글입니다.")
         );
