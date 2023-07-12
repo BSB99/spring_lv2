@@ -19,7 +19,7 @@ public class PostDetailResponseDto {
     private LocalDateTime modifiedAt;
     private String username;
     private int postLike;
-    private List<CommentResponseDto> commentList = new ArrayList<>();
+    private List<CommentDetailResponseDto> commentList = new ArrayList<>();
     public PostDetailResponseDto(Post post) {
         this.id = post.getId();
         this.title = post.getTitle();
@@ -29,7 +29,7 @@ public class PostDetailResponseDto {
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
         for (Comment comment : post.getCommentList()) {
-            commentList.add(new CommentResponseDto(comment));
+            commentList.add(new CommentDetailResponseDto(comment));
         }
     }
 }

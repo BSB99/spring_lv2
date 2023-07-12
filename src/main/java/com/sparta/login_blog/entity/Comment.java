@@ -33,6 +33,8 @@ public class Comment extends TimeStamped {
     @OneToMany(mappedBy = "comment", cascade = {CascadeType.REMOVE})
     private List<CommentLike> commentLikeList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "comment", cascade = {CascadeType.REMOVE})
+    private List<CommentReply> commentReplyList = new ArrayList<>();
     public Comment(CommentRequestDto request, User user, Post post) {
         this.content = request.getContent();
         this.user = user;
