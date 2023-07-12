@@ -28,4 +28,19 @@ public class PostLikeService {
 
         return new ApiResponseDto("댓글 좋아요 완료", 200);
     }
+
+    public ApiResponseDto deletePostLike(Long postNo, User user) {
+        Post post = postService.findPost(postNo);
+
+        PostLike postLike = postLikeRepository.findByUserAndPost(user, post).orElseThrow(() -> {
+            throw new IllegalArgumentException("좋아요가 존재하지 않습니다");
+        });
+
+        if (postLike.getUser().equals(user)) {
+            throw new IllegalArgumentException("좋아요를 누른 유저가 아닙니다!");
+        }
+
+        postLikeRepository.delete(postLike);
+        return new ApiResponseDto("댓글 좋아요 취소", 200);
+    }
 }
