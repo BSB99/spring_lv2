@@ -4,6 +4,7 @@ import com.sparta.login_blog.dto.*;
 import com.sparta.login_blog.security.UserDetailsImpl;
 import com.sparta.login_blog.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Tag(name = "게시물 API")
 public class PostController {
 
     private final PostService postService;

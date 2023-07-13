@@ -6,6 +6,7 @@ import com.sparta.login_blog.dto.CommentResponseDto;
 import com.sparta.login_blog.security.UserDetailsImpl;
 import com.sparta.login_blog.service.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/post")
 @RequiredArgsConstructor
+@Tag(name = "댓글 API")
 public class CommentController {
     private final CommentService commentService;
 

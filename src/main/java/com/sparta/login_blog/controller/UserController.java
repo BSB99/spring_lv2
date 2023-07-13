@@ -5,20 +5,20 @@ import com.sparta.login_blog.dto.SignUpRequestDto;
 import com.sparta.login_blog.dto.SigninRequestDto;
 import com.sparta.login_blog.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
+@Tag(name = "Auth API")
 public class UserController {
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @PostMapping("/signup")
     @Operation(summary = "회원 가입", description = "회원 가입 API")
