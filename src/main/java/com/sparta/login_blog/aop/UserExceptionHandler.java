@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Component
 @Slf4j(topic = "loginException")
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class UserExceptionHandler {
 
     @Pointcut("execution(* com.sparta.login_blog.controller.UserController.*(..))")
     public void loginException() {}
