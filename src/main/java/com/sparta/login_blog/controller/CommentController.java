@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     private final CommentService commentService;
 
-    private final JwtUtil jwtUtil;
     @PostMapping("/{postNo}/comment")
     @Operation(summary = "댓글 생성", description = "댓글 생성 API")
     public CommentResponseDto createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postNo, @RequestBody CommentRequestDto request) {
