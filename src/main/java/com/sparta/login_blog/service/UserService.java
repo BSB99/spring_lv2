@@ -62,6 +62,6 @@ public class UserService {
         }
 
         String token = jwtUtil.createToken(user.getUsername(), user.getRole());
-        response.setHeader("Authorization", token);
+        response.addHeader("Authorization", token);
     }
 }
