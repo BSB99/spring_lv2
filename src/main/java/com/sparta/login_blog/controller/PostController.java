@@ -19,7 +19,6 @@ public class PostController {
     @PostMapping("post")
     @Operation(summary = "게시글 생성", description = "게시글 생성 API")
     public ResponseEntity<PostResponseDto> createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostRequestDto requestDto) {
-        System.out.println(userDetails.getUser().getUsername());
         PostResponseDto result = postService.createPost(requestDto, userDetails.getUser());
 
         return ResponseEntity.status(201).body(result);

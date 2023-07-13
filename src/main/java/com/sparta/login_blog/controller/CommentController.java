@@ -7,6 +7,7 @@ import com.sparta.login_blog.security.UserDetailsImpl;
 import com.sparta.login_blog.service.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,19 +19,25 @@ public class CommentController {
 
     @PostMapping("/{postNo}/comment")
     @Operation(summary = "댓글 생성", description = "댓글 생성 API")
-    public CommentResponseDto createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postNo, @RequestBody CommentRequestDto request) {
-        return commentService.createComment(request, userDetails.getUser(), postNo);
+    public ResponseEntity<CommentResponseDto> createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postNo, @RequestBody CommentRequestDto request) {
+        CommentResponseDto res =  commentService.createComment(request, userDetails.getUser(), postNo);
+
+        return ResponseEntity.status(201).body(res);
     }
 
     @PutMapping("/{postNo}/comment/{commentNo}")
     @Operation(summary = "댓글 수정", description = "댓글 수정 API")
-    public CommentResponseDto updateComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postNo, @PathVariable Long commentNo, @RequestBody CommentRequestDto request) {
-        return commentService.updateComment(request, userDetails.getUser(), postNo, commentNo);
+    public ResponseEntity<CommentResponseDto> updateComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postNo, @PathVariable Long commentNo, @RequestBody CommentRequestDto request) {
+        CommentResponseDto res = commentService.updateComment(request, userDetails.getUser(), postNo, commentNo);
+
+        return ResponseEntity.status(200).body(res);
     }
 
     @DeleteMapping("/{postNo}/comment/{commentNo}")
     @Operation(summary = "댓글 삭제", description = "댓글 삭제 API")
-    public ApiResponseDto deleteComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postNo, @PathVariable Long commentNo){
-        return commentService.deleteComment(userDetails.getUser(), postNo, commentNo);
+    public ResponseEntity<ApiResponseDto> deleteComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postNo, @PathVariable Long commentNo){
+        ApiResponseDto res = commentService.deleteComment(userDetails.getUser(), postNo, commentNo);
+
+        return ResponseEntity.status(200).body(res);
     }
 }

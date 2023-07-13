@@ -1,8 +1,8 @@
 package com.sparta.login_blog.service;
 
+import com.sparta.login_blog.dto.ApiResponseDto;
 import com.sparta.login_blog.dto.CommentReplyResponseDto;
 import com.sparta.login_blog.dto.CommentRequestDto;
-import com.sparta.login_blog.dto.CommentResponseDto;
 import com.sparta.login_blog.entity.Comment;
 import com.sparta.login_blog.entity.CommentReply;
 import com.sparta.login_blog.entity.User;
@@ -38,6 +38,18 @@ public class CommentReplyService {
         reply.setContent(request.getContent());
 
         return new CommentReplyResponseDto(reply);
+    }
+
+    public ApiResponseDto deleteCommentReply(Long commentNo, User user) {
+        CommentReply reply = findCommentReply(commentNo);
+
+        if(!commentReplyVerificate(reply,user)) {
+            throw new IllegalArgumentException("예상치 못한 에러 발생");
+        }
+
+        commentReplyRepository.delete(reply);
+
+        return new ApiResponseDto("답글 삭제 완료", 200);
     }
 
     private CommentReply findCommentReply(Long commentNo) {

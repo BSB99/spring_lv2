@@ -30,8 +30,9 @@ public class UserController {
 
     @PostMapping("/signin")
     @Operation(summary = "로그인", description = "로그인 API")
-    public ApiResponseDto signin(@RequestBody SigninRequestDto requestDto, HttpServletResponse response) {
+    public ResponseEntity<ApiResponseDto> signin(@RequestBody SigninRequestDto requestDto, HttpServletResponse response) {
         userService.signin(requestDto, response);
-        return new ApiResponseDto("로그인 완료", HttpStatus.OK.value());
+
+        return ResponseEntity.status(200).body(new ApiResponseDto("로그인 완료", HttpStatus.OK.value()));
     }
 }
