@@ -22,7 +22,7 @@ public class CommentReplyController {
     }
 
     @PutMapping("/comment/{commentNo}")
-    @Operation(summary = "댓글 수정", description = "댓글 수정 API")
+    @Operation(summary = "답글 수정", description = "답글 수정 API")
     public CommentReplyResponseDto updateCommentReply(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long commentNo, @RequestBody CommentRequestDto request) {
         return commentReplyService.updateCommentReply(request, userDetails.getUser(), commentNo);
     }

@@ -60,6 +60,7 @@ public class JwtUtil {
                         .compact();
     }
 
+    /*
     // JWT Cookie 에 저장
     public void addJwtToCookie(String token, HttpServletResponse res) {
         try {
@@ -74,6 +75,7 @@ public class JwtUtil {
             logger.error(e.getMessage());
         }
     }
+    */
 
     // JWT 토큰 substring
     public String substringToken(String tokenValue) {
