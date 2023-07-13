@@ -11,15 +11,15 @@ import java.time.LocalDateTime;
 public class CommentReplyResponseDto {
     private Long id;
     private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    private String createdAt;
+    private String modifiedAt;
     private String username;
 
     public CommentReplyResponseDto (CommentReply reply){
         this.id = reply.getId();
         this.content = reply.getContent();
-        this.createdAt = reply.getCreatedAt();
-        this.modifiedAt = reply.getModifiedAt();
+        this.createdAt = reply.getCreatedAtAsString();
+        this.modifiedAt = reply.getModifiedAtAsString();
         this.username = reply.getUser().getUsername();
     }
 }

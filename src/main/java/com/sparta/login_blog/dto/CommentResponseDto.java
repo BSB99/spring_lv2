@@ -13,8 +13,8 @@ public class CommentResponseDto {
 
     private Long id;
     private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    private String createdAt;
+    private String modifiedAt;
     private String username;
     private int likeCount;
 
@@ -23,7 +23,7 @@ public class CommentResponseDto {
         this.content = comment.getContent();
         this.username = comment.getUser().getUsername();
         this.likeCount = comment.getCommentLikeList().size();
-        this.createdAt = comment.getCreatedAt();
-        this.modifiedAt = comment.getModifiedAt();
+        this.createdAt = comment.getCreatedAtAsString();
+        this.modifiedAt = comment.getModifiedAtAsString();
     }
 }

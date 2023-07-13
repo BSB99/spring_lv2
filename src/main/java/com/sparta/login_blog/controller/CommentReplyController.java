@@ -2,6 +2,7 @@ package com.sparta.login_blog.controller;
 
 import com.sparta.login_blog.dto.CommentReplyResponseDto;
 import com.sparta.login_blog.dto.CommentRequestDto;
+import com.sparta.login_blog.dto.CommentResponseDto;
 import com.sparta.login_blog.security.UserDetailsImpl;
 import com.sparta.login_blog.service.CommentReplyService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +18,13 @@ public class CommentReplyController {
 
     @PostMapping("/comment/{commentNo}")
     @Operation(summary = "답글 생성", description = "답글 생성 API")
-    public CommentReplyResponseDto createCommentReply(@RequestBody CommentRequestDto requestDto, @PathVariable Long commentNo, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return commentReplyService.createCommentReply(requestDto.getContent(), commentNo, userDetails.getUser());
+    public CommentReplyResponseDto createCommentReply(@RequestBody CommentRequestDto request, @PathVariable Long commentNo, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentReplyService.createCommentReply(request.getContent(), commentNo, userDetails.getUser());
+    }
+
+    @PutMapping("/comment/{commentNo}")
+    @Operation(summary = "댓글 수정", description = "댓글 수정 API")
+    public CommentReplyResponseDto updateCommentReply(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long commentNo, @RequestBody CommentRequestDto request) {
+        return commentReplyService.updateCommentReply(request, userDetails.getUser(), commentNo);
     }
 }

@@ -15,8 +15,8 @@ public class PostDetailResponseDto {
     private Long id;
     private String title;
     private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    private String createdAt;
+    private String modifiedAt;
     private String username;
     private int postLike;
     private List<CommentDetailResponseDto> commentList = new ArrayList<>();
@@ -26,8 +26,8 @@ public class PostDetailResponseDto {
         this.content = post.getContent();
         this.username = post.getUser().getUsername();
         this.postLike = post.getPostLikeList().size();
-        this.createdAt = post.getCreatedAt();
-        this.modifiedAt = post.getModifiedAt();
+        this.createdAt = post.getCreatedAtAsString();
+        this.modifiedAt = post.getModifiedAtAsString();
         for (Comment comment : post.getCommentList()) {
             commentList.add(new CommentDetailResponseDto(comment));
         }

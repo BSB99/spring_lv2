@@ -14,8 +14,8 @@ import java.util.List;
 public class CommentDetailResponseDto {
     private Long id;
     private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    private String createdAt;
+    private String modifiedAt;
     private String username;
     private int likeCount;
     private List<CommentReplyResponseDto> commentReplyList = new ArrayList<CommentReplyResponseDto>();
@@ -25,8 +25,8 @@ public class CommentDetailResponseDto {
         this.content = comment.getContent();
         this.username = comment.getUser().getUsername();
         this.likeCount = comment.getCommentLikeList().size();
-        this.createdAt = comment.getCreatedAt();
-        this.modifiedAt = comment.getModifiedAt();
+        this.createdAt = comment.getCreatedAtAsString();
+        this.modifiedAt = comment.getModifiedAtAsString();
         for (CommentReply reply : comment.getCommentReplyList()) {
             commentReplyList.add(new CommentReplyResponseDto(reply));
         }

@@ -7,13 +7,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.time.LocalDateTime;
+
 @Configuration
 @EnableWebMvc
 public class SwaggerConfig implements WebMvcConfigurer {
 
     @Bean
     public OpenAPI OpenApi() {
-
         return new OpenAPI()
                 .info(new Info().title("Spring Lv_3 API")
                         .description("Spring Lv_3 API 입니다.")
