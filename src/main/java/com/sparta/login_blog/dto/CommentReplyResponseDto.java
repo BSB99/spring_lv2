@@ -4,8 +4,6 @@ import com.sparta.login_blog.entity.CommentReply;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Setter
 @Getter
 public class CommentReplyResponseDto {

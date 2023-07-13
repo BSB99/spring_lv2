@@ -2,7 +2,6 @@ package com.sparta.login_blog.controller;
 
 import com.sparta.login_blog.dto.CommentReplyResponseDto;
 import com.sparta.login_blog.dto.CommentRequestDto;
-import com.sparta.login_blog.dto.CommentResponseDto;
 import com.sparta.login_blog.security.UserDetailsImpl;
 import com.sparta.login_blog.service.CommentReplyService;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,11 +1,8 @@
 package com.sparta.login_blog.dto;
 
 import com.sparta.login_blog.entity.Comment;
-import com.sparta.login_blog.entity.Post;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
