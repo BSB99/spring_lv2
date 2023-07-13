@@ -8,6 +8,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ import java.util.Base64;
 import java.util.Date;
 
 @Component
+@Slf4j(topic = "Jwt 생성")
 public class JwtUtil {
     // Header KEY 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
@@ -78,6 +80,7 @@ public class JwtUtil {
     */
 
     // JWT 토큰 substring
+
     public String substringToken(String tokenValue) {
         // StringUtils.hasText(tokenValue) -> 공백인지 null인지 확인
         // tokenValue.startsWith(BEARER_PREFIX) -> Barear 로 시작하는지 안하는지 확인
@@ -112,7 +115,7 @@ public class JwtUtil {
     }
 
     // HttpServletRequest 에서 Cookie Value : JWT 가져오기
-    public String getTokenFromRequest(HttpServletRequest req) {
+    /*public String getTokenFromRequest(HttpServletRequest req) {
         Cookie[] cookies = req.getCookies();
         if(cookies != null) {
             for (Cookie cookie : cookies) {
@@ -124,6 +127,15 @@ public class JwtUtil {
                     }
                 }
             }
+        }
+        return null;
+    }*/
+
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        // token 이 null 또는 공백인지 체크 && 토큰이 정상적으로 Bearer 를 가지고 있는지 체크
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+            return bearerToken.substring(7);
         }
         return null;
     }

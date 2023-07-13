@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -29,31 +30,23 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String token = jwtUtil.resolveToken(request);
 
-        String tokenValue = jwtUtil.getTokenFromRequest(req);
-
-        if (StringUtils.hasText(tokenValue)) {
-            // JWT 토큰 substring
-            tokenValue = jwtUtil.substringToken(tokenValue);
-            log.info(tokenValue);
-
-            if (!jwtUtil.validateToken(tokenValue)) {
+        if(token != null) {
+            if(!jwtUtil.validateToken(token)){
                 log.error("Token Error");
                 return;
             }
-
-            Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
-
-            try {
-                setAuthentication(info.getSubject());
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                return;
-            }
+            Claims info = jwtUtil.getUserInfoFromToken(token);
+            setAuthentication(info.getSubject());
         }
-
-        filterChain.doFilter(req, res);
+        try {
+            log.info("AuthFilter -> filterChain");
+            filterChain.doFilter(request, response);
+        } catch (FileUploadException e) {
+            log.error(e.getMessage());
+        }
     }
 
     // 인증 처리
